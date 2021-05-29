@@ -15,7 +15,28 @@ class TransactionController {
         return transactions;
     }
 
-    async create({ request, auth }) {
+    async transaction({ auth, response, params }) {
+
+        const transaction = await Transaction.find(params.id)
+
+        if (auth.current.user.id == transaction.user_id) {
+            try {
+                return transaction
+            } catch {
+                return response.status(400).json({
+                    status: 'error',
+                    message: 'There was a problem geting transaction, please try again later.'
+                })
+            }
+        } else {
+            return response.status(401).json({
+                status: 'error',
+                message: 'Unauthorized'
+            })
+        }
+    }
+
+    async create({ request, auth, response }) {
         // get currently authenticated user
         const user = auth.current.user
 
@@ -36,11 +57,11 @@ class TransactionController {
         })
     }
 
-    async update({request, auth, response, params }) {
+    async update({ request, auth, response, params }) {
 
         const transaction = await Transaction.find(params.id)
 
-        if (auth.current.user.id ==  transaction.user_id) {
+        if (auth.current.user.id == transaction.user_id) {
             try {
                 transaction.type = request.input('type')
                 transaction.description = request.input('description')
@@ -70,12 +91,12 @@ class TransactionController {
         }
     }
 
-    async delete({ auth, response, params}) {
+    async delete({ auth, response, params }) {
         const transaction = await Transaction.find(params.id)
 
-        if (auth.current.user.id ==  transaction.user_id) {
+        if (auth.current.user.id == transaction.user_id) {
             try {
-            
+
                 await transaction.delete()
 
                 return response.json({

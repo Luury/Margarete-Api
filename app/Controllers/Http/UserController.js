@@ -15,7 +15,9 @@ class UserController {
 
             return response.json({
                 status: 'success',
-                data: token
+                token: token.token,
+                type: token.type,
+                refreshToken: token.refreshToken
             })
         } catch (error) {
             return response.status(400).json({
@@ -35,8 +37,11 @@ class UserController {
 
             return response.json({
                 status: 'success',
-                data: token
+                token: token.token,
+                type: token.type,
+                refreshToken: token.refreshToken
             })
+
         } catch (error) {
             response.status(400).json({
                 status: 'error',

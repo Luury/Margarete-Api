@@ -27,7 +27,7 @@ Route.post('/user/auth', "UserController.auth");
 Route.get('/home', "HomeController.index").middleware(['auth']);
 
 Route.get('/transaction', "TransactionController.index").middleware(['auth']);
+Route.get('/transaction/:id', "TransactionController.transaction").middleware(['auth']);
 Route.post('/transaction/create', "TransactionController.create").middleware(['auth']);
 Route.put('/transaction/update/:id', "TransactionController.update").middleware(['auth']);
 Route.delete('/transaction/delete/:id', "TransactionController.delete").middleware(['auth']);
-
