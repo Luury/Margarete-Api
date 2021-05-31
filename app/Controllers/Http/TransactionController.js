@@ -2,6 +2,7 @@
 
 const Transaction = use('App/Models/Transaction');
 const User = use('App/Models/User');
+const Account = use('App/Models/Account');
 
 class TransactionController {
 
@@ -40,21 +41,38 @@ class TransactionController {
         // get currently authenticated user
         const user = auth.current.user
 
-        // Save transaction to database
-        const transaction = await Transaction.create({
-            user_id: user.id,
-            type: request.input('type'),
-            description: request.input('description'),
-            date: request.input('date'),
-            category: request.input('category'),
-            value: request.input('value')
-        })
+        const account = await Account.find(request.input('account_id'))
 
-        return response.json({
-            status: 'success',
-            message: 'Transaction Created!',
-            data: transaction
-        })
+        if (user.id == account.user_id) {
+            // Save transaction to database
+            try {
+                const transaction = await Transaction.create({
+                    user_id: user.id,
+                    account_id: request.input('account_id'),
+                    type: request.input('type'),
+                    description: request.input('description'),
+                    date: request.input('date'),
+                    category: request.input('category'),
+                    value: request.input('value')
+                })
+
+                return response.json({
+                    status: 'success',
+                    message: 'Transaction Created!',
+                    data: transaction
+                })
+            } catch {
+                return response.status(400).json({
+                    status: 'error',
+                    message: 'There was a problem creating the transaction, please try again later.'
+                })
+            }
+        } else {
+            return response.status(401).json({
+                status: 'error',
+                message: 'Unauthorized'
+            })
+        }
     }
 
     async update({ request, auth, response, params }) {

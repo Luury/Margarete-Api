@@ -31,11 +31,14 @@ class User extends Model {
    *
    * @return {Object}
    */
-  tokens () {
+  tokens() {
     return this.hasMany('App/Models/Token')
   }
-  transactions () {
+  transactions() {
     return this.hasMany('App/Models/Transaction')
+  }
+  accounts() {
+    return this.hasMany('App/Models/Account')
   }
 }
 

@@ -20,14 +20,24 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
+// User
 Route.post('/user/create', "UserController.create");
-
 Route.post('/user/auth', "UserController.auth");
+Route.get('/user/info', "UserController.info").middleware(['auth']);
 
+// Home
 Route.get('/home', "HomeController.index").middleware(['auth']);
 
+// Transactions 
 Route.get('/transaction', "TransactionController.index").middleware(['auth']);
 Route.get('/transaction/:id', "TransactionController.transaction").middleware(['auth']);
 Route.post('/transaction/create', "TransactionController.create").middleware(['auth']);
 Route.put('/transaction/update/:id', "TransactionController.update").middleware(['auth']);
 Route.delete('/transaction/delete/:id', "TransactionController.delete").middleware(['auth']);
+
+// Accounts
+Route.get('/account', "AccountController.index").middleware(['auth']);
+Route.get('/account/:id', "AccountController.account").middleware(['auth']);
+Route.post('/account/create', "AccountController.create").middleware(['auth']);
+Route.put('/account/update/:id', "AccountController.update").middleware(['auth']);
+Route.delete('/account/delete/:id', "AccountController.delete").middleware(['auth']);

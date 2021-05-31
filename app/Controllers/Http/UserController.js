@@ -50,6 +50,20 @@ class UserController {
         }
     }
 
+    async info({ auth, response }) {
+        const id = auth.current.user.id
+
+        const user = await User.find(id)
+
+        return response.json({
+            id: user.id,
+            username: user.username,
+            cpf: user.cpf,
+            email: user.email
+        })
+
+    }
+
 }
 
 module.exports = UserController
