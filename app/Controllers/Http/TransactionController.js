@@ -1,15 +1,12 @@
 'use strict'
 
 const Transaction = use('App/Models/Transaction');
-const User = use('App/Models/User');
 const Account = use('App/Models/Account');
 
 class TransactionController {
 
     async index({ auth }) {
-        const id = auth.current.user.id
-
-        const user = await User.find(id)
+        const user = auth.current.user
 
         const transactions = await user.transactions().fetch()
 

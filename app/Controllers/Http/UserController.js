@@ -51,9 +51,7 @@ class UserController {
     }
 
     async info({ auth, response }) {
-        const id = auth.current.user.id
-
-        const user = await User.find(id)
+        const user = auth.current.user
 
         return response.json({
             id: user.id,

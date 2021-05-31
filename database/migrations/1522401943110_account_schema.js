@@ -12,7 +12,6 @@ class AccountSchema extends Schema {
 
       table.integer('type').notNullable()
       table.string('description', 254).notNullable()
-      table.float('balance').notNullable()
 
       table.timestamps()
     })

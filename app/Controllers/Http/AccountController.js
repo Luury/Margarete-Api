@@ -5,9 +5,7 @@ const User = use('App/Models/User');
 
 class AccountController {
     async index({ auth }) {
-        const id = auth.current.user.id
-
-        const user = await User.find(id)
+        const user = auth.current.user
 
         const accounts = await user.accounts().fetch()
 
@@ -44,7 +42,6 @@ class AccountController {
             user_id: user.id,
             type: request.input('type'),
             description: request.input('description'),
-            balance: request.input('balance'),
         })
 
         return response.json({
