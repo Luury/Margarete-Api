@@ -7,6 +7,9 @@ class Transaction extends Model {
     user(){
         return this.belongsTo('App/Models/User');
     }
+    accounts(){
+        return this.belongsTo('App/Models/Account')
+      }
 }
 
 module.exports = Transaction

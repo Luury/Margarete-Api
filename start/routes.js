@@ -27,6 +27,8 @@ Route.get('/user/info', "UserController.info").middleware(['auth']);
 
 // Home
 Route.get('/home', "HomeController.index").middleware(['auth']);
+Route.get('/home/accounts', "HomeController.accounts").middleware(['auth']);
+Route.get('/home/transactions', "HomeController.transactions").middleware(['auth']);
 
 // Transactions 
 Route.get('/transaction', "TransactionController.index").middleware(['auth']);

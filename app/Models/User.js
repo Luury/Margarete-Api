@@ -1,5 +1,7 @@
 'use strict'
 
+const Account = use('App/Models/Account');
+
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
@@ -7,7 +9,7 @@ const Model = use('Model')
 const Hash = use('Hash')
 
 class User extends Model {
-  static boot () {
+  static boot() {
     super.boot()
 
     /**
@@ -18,6 +20,16 @@ class User extends Model {
       if (userInstance.dirty.password) {
         userInstance.password = await Hash.make(userInstance.password)
       }
+    })
+
+    // Hook to add account
+    this.addHook('afterCreate', async (userInstance) => {
+      await Account.create({
+        user_id: userInstance.id,
+        type: "1",
+        description: "Carteira",
+      })
+
     })
   }
 
