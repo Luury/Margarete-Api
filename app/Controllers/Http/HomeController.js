@@ -14,47 +14,44 @@ class HomeController {
         var transactions = await user.transactions().fetch()
         transactions = transactions.rows
 
-        var accounts = await user.accounts().fetch()
-        accounts = accounts.rows
+        var expense = transactions.filter((transaction) => transaction.type == 1);
 
-        var despesa = transactions.filter((transaction) => transaction.type == 1);
-
-        despesa = despesa.map((transaction) => {
+        expense = expense.map((transaction) => {
             return transaction.value;
         })
 
-        const despesaAmount = despesa.length;
+        const expenseAmount = expense.length;
 
-        if (despesa.length === 0) {
-            despesa = 0.00
+        if (expense.length === 0) {
+            expense = 0.00
         } else {
-            despesa = despesa.reduce((total, currentElement) => total + currentElement)
+            expense = expense.reduce((total, currentElement) => total + currentElement)
         }
 
-        var receita = transactions.filter((transaction) => transaction.type == 2);
+        var revenue = transactions.filter((transaction) => transaction.type == 2);
 
-        receita = receita.map((transaction) => {
+        revenue = revenue.map((transaction) => {
             return transaction.value;
         })
 
-        const receitaAmount = receita.length
+        const revenueAmount = revenue.length
 
-        if (receita.length === 0) {
-            receita = 0.00
+        if (revenue.length === 0) {
+            revenue = 0.00
         } else {
-            receita = receita.reduce((total, currentElement) => total + currentElement)
+            revenue = revenue.reduce((total, currentElement) => total + currentElement)
         }
 
-        const geralAmount = receitaAmount + despesaAmount
-        var geral = receita - despesa;
+        const balanceAmount = revenueAmount + expenseAmount
+        var balance = revenue - expense;
 
         return response.json({
-            geral,
-            despesa,
-            receita,
-            geralAmount,
-            receitaAmount,
-            despesaAmount,
+            balance,
+            expense,
+            revenue,
+            balanceAmount,
+            revenueAmount,
+            expenseAmount,
         })
     }
 
