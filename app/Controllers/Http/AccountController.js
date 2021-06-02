@@ -4,10 +4,59 @@ const Account = use('App/Models/Account');
 const User = use('App/Models/User');
 
 class AccountController {
+
     async index({ auth }) {
         const user = auth.current.user
 
-        const accounts = await user.accounts().fetch()
+        var accounts = await user.accounts().fetch()
+        accounts = accounts.rows
+
+        var transactions = await user.transactions().fetch()
+        transactions = transactions.rows
+
+
+        accounts.forEach(item => {
+            var AccountTransactions = transactions.filter((transaction) => transaction.account_id == item.id);
+
+            const balanceAmount = AccountTransactions.length;
+
+            var expense = AccountTransactions.filter((transaction) => transaction.type == 1);
+
+            expense = expense.map((transaction) => {
+                return transaction.value;
+            })
+
+            const expenseAmount = expense.length;
+
+            if (expense.length === 0) {
+                expense = 0.00
+            } else {
+                expense = expense.reduce((total, currentElement) => total + currentElement)
+            }
+
+            var revenue = AccountTransactions.filter((transaction) => transaction.type == 2);
+
+            revenue = revenue.map((transaction) => {
+                return transaction.value;
+            })
+
+            const revenueAmount = revenue.length
+
+            if (revenue.length === 0) {
+                revenue = 0.00
+            } else {
+                revenue = revenue.reduce((total, currentElement) => total + currentElement)
+            }
+
+            const balance = revenue - expense
+
+            item.balance = balance
+            item.expense = expense
+            item.revenue = revenue
+            item.balanceAmount = balanceAmount
+            item.revenueAmount = revenueAmount
+            item.expenseAmount = expenseAmount
+        });
 
         return accounts;
     }
