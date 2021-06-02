@@ -15,9 +15,13 @@ class TransactionController {
 
     async transaction({ auth, response, params }) {
 
+        const user = auth.current.user
+
         const transaction = await Transaction.find(params.id)
 
-        if (auth.current.user.id == transaction.user_id) {
+        const account = await Account.find(transaction.account_id);
+
+        if (user.id == account.user_id) {
             try {
                 return transaction
             } catch {
@@ -44,7 +48,6 @@ class TransactionController {
             // Save transaction to database
             try {
                 const transaction = await Transaction.create({
-                    user_id: user.id,
                     account_id: request.input('account_id'),
                     type: request.input('type'),
                     description: request.input('description'),
@@ -74,9 +77,13 @@ class TransactionController {
 
     async update({ request, auth, response, params }) {
 
+        const user = auth.current.user
+
         const transaction = await Transaction.find(params.id)
 
-        if (auth.current.user.id == transaction.user_id) {
+        const account = await Account.find(transaction.account_id);
+
+        if (user.id == account.user_id) {
             try {
                 transaction.type = request.input('type')
                 transaction.description = request.input('description')
@@ -107,9 +114,13 @@ class TransactionController {
     }
 
     async delete({ auth, response, params }) {
+        const user = auth.current.user
+
         const transaction = await Transaction.find(params.id)
 
-        if (auth.current.user.id == transaction.user_id) {
+        const account = await Account.find(transaction.account_id);
+
+        if (user.id == account.user_id) {
             try {
 
                 await transaction.delete()

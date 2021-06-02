@@ -57,14 +57,18 @@ class HomeController {
 
     async transactions({ auth, response }) {
 
-        const transactions = await Transaction.query().with('accounts').fetch();
+        const user = auth.current.user
+
+        const transactions = await user.transactions().fetch()
 
         return transactions;
     }
 
     async accounts({ auth, response }) {
 
-        const accounts = await Account.query().with('transactions').fetch();
+        const user = auth.current.user
+
+        const accounts = await user.accounts().fetch()
 
         return accounts;
     }

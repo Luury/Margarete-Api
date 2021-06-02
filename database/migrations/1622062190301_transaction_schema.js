@@ -7,12 +7,9 @@ class TransactionSchema extends Schema {
   up () {
     this.create('transactions', (table) => {
       table.increments()
-
-      table.integer('user_id').unsigned().notNullable();
-      table.foreign('user_id').references('id').inTable('users');
-
+      
       table.integer('account_id').unsigned().notNullable();
-      table.foreign('account_id').references('id').inTable('accounts');
+      table.foreign('account_id').references('id').inTable('accounts').onDelete('CASCADE');
 
       table.integer('type').notNullable()
       table.string('description', 254).notNullable()

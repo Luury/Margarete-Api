@@ -46,11 +46,11 @@ class User extends Model {
   tokens() {
     return this.hasMany('App/Models/Token')
   }
-  transactions() {
-    return this.hasMany('App/Models/Transaction')
-  }
   accounts() {
     return this.hasMany('App/Models/Account')
+  }
+  transactions() {
+    return this.manyThrough('App/Models/Account', 'transactions')
   }
 }
 

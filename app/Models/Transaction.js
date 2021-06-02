@@ -9,7 +9,7 @@ class Transaction extends Model {
     }
     accounts(){
         return this.belongsTo('App/Models/Account')
-      }
+    }
 }
 
 module.exports = Transaction
