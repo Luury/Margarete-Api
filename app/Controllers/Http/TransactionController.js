@@ -52,7 +52,7 @@ class TransactionController {
                     type: request.input('type'),
                     description: request.input('description'),
                     date: request.input('date'),
-                    category: request.input('category'),
+                    category_id: request.input('category_id'),
                     value: request.input('value')
                 })
 
@@ -88,7 +88,7 @@ class TransactionController {
                 transaction.type = request.input('type')
                 transaction.description = request.input('description')
                 transaction.date = request.input('date')
-                transaction.category = request.input('category')
+                transaction.category_id = request.input('category_id')
                 transaction.value = request.input('value')
 
                 await transaction.save()

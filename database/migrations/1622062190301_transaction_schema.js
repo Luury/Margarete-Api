@@ -11,9 +11,11 @@ class TransactionSchema extends Schema {
       table.integer('account_id').unsigned().notNullable();
       table.foreign('account_id').references('id').inTable('accounts').onDelete('CASCADE');
 
+      table.integer('category_id').unsigned().notNullable();
+      table.foreign('category_id').references('id').inTable('categories').onDelete('CASCADE');
+
       table.integer('type').notNullable()
       table.string('description', 254).notNullable()
-      table.string('category', 254).notNullable()
       table.float('value').notNullable()
       table.date('date').notNullable()
       table.timestamps()
