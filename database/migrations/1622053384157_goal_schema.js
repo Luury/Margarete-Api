@@ -10,10 +10,7 @@ class GoalSchema extends Schema {
       
       table.integer('user_id').unsigned().notNullable();
       table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE');
-
-      table.integer('category_id').unsigned().notNullable();
-      table.foreign('category_id').references('id').inTable('categories').onDelete('CASCADE');
-
+      
       table.string('description',90).notNullable()
       table.float('value_start').notNullable()
       table.float('value_end').notNullable()

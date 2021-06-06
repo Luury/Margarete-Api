@@ -14,6 +14,9 @@ class TransactionSchema extends Schema {
       table.integer('category_id').unsigned().notNullable();
       table.foreign('category_id').references('id').inTable('categories').onDelete('CASCADE');
 
+      table.integer('goal_id').unsigned()
+      table.foreign('goal_id').references('id').inTable('goals').onDelete('CASCADE');
+      
       table.integer('type').notNullable()
       table.string('description', 254).notNullable()
       table.float('value').notNullable()

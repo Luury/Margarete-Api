@@ -8,8 +8,7 @@ class GoalController {
     async index({ auth }) {
         const user = auth.current.user
 
-        //const goals = await user.goals().whith('goals_transactions').fetch()
-        const goals = await user.goals().with('goal_transaction').fetch()
+        const goals = await user.goals().fetch()
 
         return goals;
     }

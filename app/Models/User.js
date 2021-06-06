@@ -58,9 +58,6 @@ class User extends Model {
   goals() {
     return this.hasMany('App/Models/Goal')
   }
-  goal_transactions(){
-    return this.manyThrough('App/Models/Goal','goal_transaction')
-  }
 
 }
 
