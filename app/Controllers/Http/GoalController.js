@@ -37,61 +37,34 @@ class GoalController {
     }
 
     async create({ request, auth, response }) {
-        // get currently authenticated user
+
         const user = auth.current.user
-       // console.log(request)
 
-       // const account = await Account.find(request.input('account_id'))
+        const goal = await Goal.create({
+            user_id: user.id,
+            description: request.input('description'),
+            date_start: request.input('date_start'),
+            date_end: request.input('date_end'),
+            value: request.input('value')
+        })
 
-        if (user.id) {
-            // Save goal to database
-            try {
-                const goal = await Goal.create({
-                    user_id: user.id,
-                    description: request.input('description'),
-                    value_start: request.input('value_start'),
-                    value_end: request.input('value_end'),
-                    date_start: request.input('date_start'),
-                    date_end: request.input('date_end'),
-                    category_id: request.input('category_id'),
-                })
-
-                return response.json({
-                    status: 'success',
-                    message: 'Goal Created!',
-                    data: goal
-                })
-            } catch (error){
-                console.log(error)
-                return response.status(400).json({
-                    status: 'error',
-                    message: 'There was a problem creating the goal, please try again later.'
-                })
-            }
-        } else {
-            return response.status(401).json({
-                status: 'error',
-                message: 'Unauthorized'
-            })
-        }
+        return response.json({
+            status: 'success',
+            message: 'Goal Created!',
+            data: goal
+        })
     }
 
     async update({ request, auth, response, params }) {
 
-        const user = auth.current.user
-
         const goal = await Goal.find(params.id)
 
-        //const account = await Account.find(goal.account_id);
-
-        if (user.id) {
+        if (auth.current.user.id == goal.user_id) {
             try {
                 goal.description = request.input('description')
-                goal.value_start = request.input('value_start')
-                goal.value_end = request.input('value_end')
                 goal.date_start = request.input('date_start')
                 goal.date_end = request.input('date_end')
-                goal.category_id = request.input('category_id')
+                goal.value = request.input('value')
 
                 await goal.save()
 
@@ -117,13 +90,10 @@ class GoalController {
     }
 
     async delete({ auth, response, params }) {
-        const user = auth.current.user
 
         const goal = await Goal.find(params.id)
 
-       // const account = await Account.find(goal.account_id);
-
-        if (user.id) {
+        if (auth.current.user.id == goal.user_id) {
             try {
 
                 await goal.delete()

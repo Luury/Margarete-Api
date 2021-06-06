@@ -42,16 +42,32 @@ class HomeController {
             revenue = revenue.reduce((total, currentElement) => total + currentElement)
         }
 
-        const balanceAmount = revenueAmount + expenseAmount
-        var balance = revenue - expense;
+        var investment = transactions.filter((transaction) => transaction.type == 3);
+
+        investment = investment.map((transaction) => {
+            return transaction.value;
+        })
+
+        const investmentAmount = investment.length;
+
+        if (investment.length === 0) {
+            investment = 0.00
+        } else {
+            investment = investment.reduce((total, currentElement) => total + currentElement)
+        }
+
+        const balanceAmount = revenueAmount + expenseAmount + investmentAmount
+        var balance = revenue - expense - investment;
 
         return response.json({
             balance,
             expense,
             revenue,
+            investment,
             balanceAmount,
             revenueAmount,
             expenseAmount,
+            investmentAmount,
         })
     }
 

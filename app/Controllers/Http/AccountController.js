@@ -48,14 +48,30 @@ class AccountController {
                 revenue = revenue.reduce((total, currentElement) => total + currentElement)
             }
 
-            const balance = revenue - expense
+            var investment = AccountTransactions.filter((transaction) => transaction.type == 3);
+
+            investment = investment.map((transaction) => {
+                return transaction.value;
+            })
+    
+            const investmentAmount = investment.length;
+    
+            if (investment.length === 0) {
+                investment = 0.00
+            } else {
+                investment = investment.reduce((total, currentElement) => total + currentElement)
+            }
+
+            const balance = revenue - expense - investment
 
             item.balance = balance
             item.expense = expense
             item.revenue = revenue
+            item.investment = investment
             item.balanceAmount = balanceAmount
             item.revenueAmount = revenueAmount
             item.expenseAmount = expenseAmount
+            item.investmentAmount = investmentAmount
         });
 
         return accounts;
