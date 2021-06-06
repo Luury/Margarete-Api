@@ -55,6 +55,12 @@ class User extends Model {
   categories() {
     return this.hasMany('App/Models/Category')
   }
+  goals() {
+    return this.hasMany('App/Models/Goal')
+  }
+  goal_transactions(){
+    return this.manyThrough('App/Models/Goal','goal_transaction')
+  }
 
 }
 

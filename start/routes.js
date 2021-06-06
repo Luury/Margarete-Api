@@ -50,3 +50,17 @@ Route.get('/category/:id', "CategoryController.category").middleware(['auth']);
 Route.post('/category/create', "CategoryController.create").middleware(['auth']);
 Route.put('/category/update/:id', "CategoryController.update").middleware(['auth']);
 Route.delete('/category/delete/:id', "CategoryController.delete").middleware(['auth']);
+
+// Goals
+Route.get('/goal', "GoalController.index").middleware(['auth']);
+Route.get('/goal/:id', "GoalController.goal").middleware(['auth']);
+Route.post('/goal/create', "GoalController.create").middleware(['auth']);
+Route.put('/goal/update/:id', "GoalController.update").middleware(['auth']);
+Route.delete('/goal/delete/:id', "GoalController.delete").middleware(['auth']);
+
+// Goals Transactions
+Route.get('/goal/:id/transaction', "GoalTransactionController.index").middleware(['auth']);
+Route.get('/goal/:id/transaction/:idT', "GoalTransactionController.goalTransaction").middleware(['auth']);
+Route.post('/goal/:id/transaction/create', "GoalTransactionController.create").middleware(['auth']);
+Route.put('/goal/:id/transaction/update/:idT', "GoalTransactionController.update").middleware(['auth']);
+Route.delete('/goal/:id/transaction/delete/:idT', "GoalTransactionController.delete").middleware(['auth']);
