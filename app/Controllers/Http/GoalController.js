@@ -1,6 +1,7 @@
 'use strict'
 
 const Goal = use('App/Models/Goal')
+const Transaction = use('App/Models/Transaction');
 //const Account = use('App/Models/Account');
 
 class GoalController {
@@ -8,7 +9,33 @@ class GoalController {
     async index({ auth }) {
         const user = auth.current.user
 
-        const goals = await user.goals().fetch()
+        var goals = await user.goals().fetch()
+        goals = goals.rows
+
+        var transactions = await user.transactions().fetch()
+        transactions = transactions.rows
+
+        goals.forEach(item => {
+            var GoalsTransactions = transactions.filter((transaction) => transaction.goal_id == item.id);
+
+            const investmentAmount = GoalsTransactions.length;
+
+            var investment = GoalsTransactions.map((transaction) => {
+                return transaction.value;
+            })
+    
+            if (investmentAmount === 0) {
+                investment = 0.00
+            } else {
+                investment = investment.reduce((total, currentElement) => total + currentElement)
+            }
+
+            var percentage = investment/item.value
+
+            item.investment = investment
+            item.investmentAmount = investmentAmount
+            item.percentage = percentage
+        });
 
         return goals;
     }
