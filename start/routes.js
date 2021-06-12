@@ -46,6 +46,7 @@ Route.delete('/account/delete/:id', "AccountController.delete").middleware(['aut
 
 // Category
 Route.get('/category', "CategoryController.index").middleware(['auth']);
+Route.get('/category/type/:id', "CategoryController.indexByType").middleware(['auth']);
 Route.get('/category/:id', "CategoryController.category").middleware(['auth']);
 Route.post('/category/create', "CategoryController.create").middleware(['auth']);
 Route.put('/category/update/:id', "CategoryController.update").middleware(['auth']);

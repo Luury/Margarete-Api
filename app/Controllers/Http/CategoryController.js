@@ -10,6 +10,18 @@ class CategoryController {
         const categories = await user.categories().fetch()
 
         return categories;
+    }listByType
+
+    async indexByType({ auth, params}) {
+        const user = auth.current.user
+
+        var categories = await user.categories().fetch()
+
+        categories = categories.rows
+
+        categories = categories.filter((category) => category.type == params.id);
+
+        return categories;
     }
 
     async category({ auth, response, params }) {
