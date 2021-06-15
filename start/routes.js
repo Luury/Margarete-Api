@@ -59,3 +59,5 @@ Route.post('/goal/create', "GoalController.create").middleware(['auth']);
 Route.put('/goal/update/:id', "GoalController.update").middleware(['auth']);
 Route.delete('/goal/delete/:id', "GoalController.delete").middleware(['auth']);
 
+//FAQ
+Route.get('/faq', "FaqController.index");
