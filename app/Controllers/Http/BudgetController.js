@@ -13,29 +13,28 @@ class BudgetController {
         budgets = budgets.rows
 
         var transactions = await user.transactions().fetch()
-        transactions = transactions.rows
-        
+        transactions = transactions.rows.filter(transaction => transaction.type == 1)
 
         budgets.forEach(item => {
-            var CategoryTransactions = transactions.filter((transaction) => transaction.category_id == item.id);
-            console.log(CategoryTransactions)
-            const budgetAmount = CategoryTransactions.length;
+            var CategoryTransactions = transactions.filter(transaction => transaction.category_id == item.category_id);
 
-            var budget = CategoryTransactions.map((transaction) => {
-                return transaction.value;
-            })
-    
-            if (budgetAmount === 0) {
-                budget = 0.00
-            } else {
-                budget = budget.reduce((total, currentElement) => total + currentElement)
+            const Transactions = CategoryTransactions.length;
+
+            var budget = CategoryTransactions.map(transaction =>  transaction.value);
+            
+            
+            if (Transactions === 0) {
+               var budgetAmount = 0.00
+            }else{
+               var budgetAmount = budget.reduce((total, currentElement) => total + currentElement);
             }
 
-            var percentage = budget/item.value
+            var percentage = budgetAmount/item.value
 
             item.budget = budget
             item.budgetAmount = budgetAmount
             item.percentage = percentage
+            item.percentagemTrunc = Math.trunc(percentage*100)
         });
 
         return budgets;
@@ -96,6 +95,7 @@ class BudgetController {
                 budget.description = request.input('description'),
                 budget.month_start = month,
                 budget.value = request.input('value')
+               // budget.category_id = request.input('category_id')
 
                 await budget.save()
 
