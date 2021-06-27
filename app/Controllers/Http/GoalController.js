@@ -35,6 +35,7 @@ class GoalController {
             item.investment = investment
             item.investmentAmount = investmentAmount
             item.percentage = percentage
+            item.percentagemTrunc = Math.trunc(percentage*100)
         });
 
         return goals;

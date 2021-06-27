@@ -59,3 +59,12 @@ Route.post('/goal/create', "GoalController.create").middleware(['auth']);
 Route.put('/goal/update/:id', "GoalController.update").middleware(['auth']);
 Route.delete('/goal/delete/:id', "GoalController.delete").middleware(['auth']);
 
+//FAQ
+Route.get('/faq', "FaqController.index");
+
+// Budget
+Route.get('/budget', "BudgetController.index").middleware(['auth']);
+Route.get('/budget/:id', "BudgetController.budget").middleware(['auth']);
+Route.post('/budget/create', "BudgetController.create").middleware(['auth']);
+Route.put('/budget/update/:id', "BudgetController.update").middleware(['auth']);
+Route.delete('/budget/delete/:id', "BudgetController.delete").middleware(['auth']);
